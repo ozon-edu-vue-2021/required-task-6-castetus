@@ -1,13 +1,16 @@
 <template>
   <div id="app">
+    <AppTable :rows="rows" />
   </div>
 </template>
 
 <script>
+import AppTable from './components/AppTable.vue';
 
 export default {
   name: 'App',
   components: {
+    AppTable,
   },
   data() {
     return {
