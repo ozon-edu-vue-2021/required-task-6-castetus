@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <AppTable :rows="rows" />
+    <AppTable :rows="rows" v-if="rows.length"/>
   </div>
 </template>
 

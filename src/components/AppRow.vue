@@ -1,5 +1,6 @@
 <template>
   <tr>
+    <td>{{row.postId}}</td>
     <td>{{row.id}}</td>
     <td>{{row.name}}</td>
     <td>{{row.body}}</td>
@@ -16,6 +17,11 @@ export default {
       default: () => {},
     },
   },
+  // computed: {
+  //   values() {
+  //     return Object.values(this.row);
+  //   },
+  // },
 }
 </script>
 
