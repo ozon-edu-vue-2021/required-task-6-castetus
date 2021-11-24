@@ -8,6 +8,15 @@
 export default {
   name: 'App',
   components: {
+  },
+  data() {
+    return {
+      rows: [],
+    };
+  },
+  async created() {
+    const res = await fetch(`https://jsonplaceholder.typicode.com/comments`);
+    this.rows = await res.json();
   }
 };
 </script>
