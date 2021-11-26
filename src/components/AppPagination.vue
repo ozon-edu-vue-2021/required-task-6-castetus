@@ -34,7 +34,5 @@ export default {
 </script>
 
 <style scoped>
-  .active{
-    background: green;
-  }
+
 </style>

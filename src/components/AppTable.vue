@@ -1,6 +1,7 @@
 <template>
   <div class="app-table">
-    <div class="actions">
+    <div class="actions" ref="actions">
+      <button @click="toggleScroll" :class="{active: infiniteScroll}">Infinite scroll</button>
       <label for="numberPosts">Show by: </label>
       <select
         name="numberPosts"
@@ -17,9 +18,8 @@
         v-if="numberPosts"
         :pages="pages"
         @changePage="changePage"/>
-      <!-- <button>Infinite scroll</button> -->
     </div>
-    <table>
+    <table :style="`margin-top: ${topOffset}px`">
       <thead>
         <tr>
           <AppTableHeaderEl
@@ -60,7 +60,6 @@ export default {
       tableData: [],
       filters: [],
       numberPosts: 0,
-      // pagination: false,
       options: [
         {
           num: 50,
@@ -77,10 +76,15 @@ export default {
       ],
       currentPage: 0,
       pages: [],
+      infiniteScroll: false,
+      topOffset: 0,
     };
   },
   created() {
     this.tableData = JSON.parse(JSON.stringify(this.rows));
+  },
+  mounted() {
+    this.topOffset = this.$refs.actions.clientHeight;
   },
   computed: {
     titles() {
@@ -107,6 +111,9 @@ export default {
         return this.filteredData.slice(beginIndex, endIndex);
       }
       return this.filteredData;
+    },
+    scrollData() {
+      return this.paginatedData;
     },
   },
   methods: {
@@ -145,6 +152,9 @@ export default {
       this.currentPage = page;
       console.log(page);
     },
+    toggleScroll() {
+      this.infiniteScroll = !this.infiniteScroll;
+    },
   },
 };
 </script>
@@ -165,5 +175,13 @@ select {
 .actions{
   display: flex;
   width: 100%;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  background: white;
+  border-bottom: 1px solid black;
+}
+.active{
+  background: green;
 }
 </style>

@@ -65,5 +65,10 @@ th{
   color: blue;
   text-decoration: underline;
   cursor: pointer;
+  padding: 10px 0;
+}
+input{
+  max-width: 50%;
+  float: right;
 }
 </style>
