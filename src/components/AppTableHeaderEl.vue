@@ -1,6 +1,8 @@
 <template>
   <th>
     <span @click="sortColumn">{{title}}</span>
+    <ArrowDown v-if="order === 1"/>
+    <ArrowUp v-if="order === -1"/>
     <input
       type="text"
       placeholder="filter"
@@ -10,12 +12,20 @@
 </template>
 
 <script>
+import ArrowDown from 'vue-material-design-icons/ArrowDown.vue';
+import ArrowUp from 'vue-material-design-icons/ArrowUp.vue';
+
+
 export default {
   name: 'AppTableHeaderEl',
   emits: [
     'sort',
     'filter',
   ],
+  components: {
+    ArrowDown,
+    ArrowUp,
+  },
   props: {
     title: {
       type: String,
@@ -24,13 +34,17 @@ export default {
   },
   data() {
     return {
-      order: -1,
+      order: 0,
       filterString: '',
     };
   },
   methods: {
     sortColumn() {
-      this.order = this.order * -1;
+      if (!this.order) {
+        this.order = 1;
+      } else {
+        this.order = this.order * -1;
+      }
       this.$emit('sort', {
         column: this.title,
         order: this.order,

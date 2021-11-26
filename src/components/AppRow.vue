@@ -17,11 +17,6 @@ export default {
       default: () => {},
     },
   },
-  // computed: {
-  //   values() {
-  //     return Object.values(this.row);
-  //   },
-  // },
 }
 </script>
 
