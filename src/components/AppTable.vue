@@ -85,9 +85,13 @@ export default {
   },
   created() {
     this.tableData = JSON.parse(JSON.stringify(this.rows));
+    console.log(Date.now());
   },
   mounted() {
     this.topOffset = this.$refs.actions.clientHeight;
+    this.$nextTick(() => {
+      console.log(Date.now());
+    })
   },
   computed: {
     titles() {
