@@ -30,8 +30,8 @@
             @filter="filterTable"/>
         </tr>
       </thead>
-      <tbody>
-        <AppRow v-for="row in paginatedData" :key="row.id" :row="row" />
+      <tbody ref="table">
+        <AppRow v-for="row in scrollData" :key="row.id" :row="row" />
       </tbody>
     </table>
   </div>
@@ -78,6 +78,9 @@ export default {
       pages: [],
       infiniteScroll: false,
       topOffset: 0,
+      scrollChunkSize: 20,
+      currentScroll: 1,
+      bottomPoint: 0,
     };
   },
   created() {
@@ -113,6 +116,9 @@ export default {
       return this.filteredData;
     },
     scrollData() {
+      if (this.infiniteScroll) {
+        return this.paginatedData.slice(0, this.scrollChunkSize * this.currentScroll);
+      }
       return this.paginatedData;
     },
   },
@@ -150,10 +156,27 @@ export default {
     },
     changePage(page) {
       this.currentPage = page;
-      console.log(page);
     },
     toggleScroll() {
       this.infiniteScroll = !this.infiniteScroll;
+      if (this.infiniteScroll) {
+        window.addEventListener('scroll', this.detectScrollPosition);
+        this.$nextTick(() => {
+          this.calculateBottomPoint();
+        });
+      } else {
+        window.removeEventListener('scroll', this.detectScrollPosition);
+      }
+    },
+    calculateBottomPoint() {
+      this.bottomPoint = this.$refs.table.getBoundingClientRect().bottom + window.pageYOffset;
+    },
+    detectScrollPosition() {
+      const currentPosition = scrollY + window.innerHeight;
+      if (currentPosition > (this.bottomPoint - 100)) {
+        this.currentScroll += 1;
+        this.calculateBottomPoint();
+      }
     },
   },
 };
